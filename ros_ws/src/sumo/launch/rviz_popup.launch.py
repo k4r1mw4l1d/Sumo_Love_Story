@@ -11,7 +11,7 @@ def generate_launch_description():
     xacro_file = PathJoinSubstitution([
         FindPackageShare("sumo"),
         "urdf",
-        "robot.xacro"
+        "sumo.xacro"
     ])
 
     robot_description = {
