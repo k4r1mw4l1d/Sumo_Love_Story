@@ -104,16 +104,6 @@ Relative to the robot origin:
 | Y | +0.13 mm |
 | Z | +51.57 mm |
 
-## Mass of Major Parts
-
-| Component | Mass |
-|-----------|------|
-| Base Chassis | *To be added* |
-| Camera | *To be added* |
-| LiDAR | *To be added* |
-| Wheels | *To be added* |
-| Spear Mechanism | *To be added* |
-
 ---
 
 # Sensor Configuration
