@@ -1,128 +1,159 @@
 # ROS 2 Sumo Robot
 
-A ROS 2 based autonomous sumo robot platform equipped with a **2D LiDAR** and a **camera** for environmental perception. The robot can be **manually controlled** through the standard `/cmd_vel` topic, making it suitable for testing navigation algorithms, computer vision, and robot control in simulation or on real hardware.
+> A ROS 2-based differential drive sumo robot equipped with a forward-facing camera and a 2D LiDAR sensor for perception. The robot is designed for simulation in Gazebo and visualization in RViz2, and is manually controlled through the standard `/cmd_vel` topic.
 
 ---
 
-## Features
+# Table of Contents
 
-- 📷 Live camera streaming
-- 📡 2D LiDAR scanning
-- 🎮 Manual control using the `/cmd_vel` topic
-- 🤖 ROS 2 compatible
-- 🔄 Modular sensor integration
-- 🏟️ Designed for Sumo Robot applications
-
----
-
-## Robot Overview
-
-The robot consists of the following main components:
-
-- Differential drive mobile base
-- Camera sensor
-- 2D LiDAR sensor
-- ROS 2 control interface
-- Velocity control via `/cmd_vel`
-
----
-
-# Camera View
-
-The robot publishes live camera images that can be viewed using **RViz2**, **rqt_image_view**, or any ROS 2 image subscriber.
-
-<p align="center">
-  <img src="images/image2.png" alt="Camera View" width="700">
-</p>
+- Overview
+- Features
+- Robot Design
+- Mechanical Specifications
+- Sensor Configuration
+- Attack & Defense Mechanisms
+- Software Architecture
+- Repository Structure
+- Dependencies
+- Building the Workspace
+- Running the Simulation
+- Robot Control
+- ROS 2 Topics
+- TF Frames
+- Camera Stream
+- Project Files
+- Screenshots
+- Demonstration Video
+- License
 
 ---
 
-# LiDAR Visualization
+# Overview
 
-The LiDAR provides a 360° scan of the surrounding environment and can be visualized in **RViz2**.
+This project implements a complete ROS 2 simulation of a sumo robot. The simulation includes:
 
-<p align="center">
-  <img src="images/image.png" alt="LiDAR Visualization" width="700">
-</p>
+- Differential drive locomotion
+- 2D LiDAR
+- RGB Camera
+- Gazebo simulation
+- RViz visualization
+- Manual keyboard control
+- TF tree
+- Odometry
+- Sensor publishing
 
----
-
-# Topics
-
-| Topic | Type | Description |
-|--------|------|-------------|
-| `/cmd_vel` | `geometry_msgs/msg/Twist` | Robot velocity commands |
-| `/scan` | `sensor_msgs/msg/LaserScan` | LiDAR scan data |
-| `/camera/image_raw` | `sensor_msgs/msg/Image` | Raw camera images |
+The robot can be extended for autonomous navigation, obstacle avoidance, or vision-based opponent detection.
 
 ---
 
-# Manual Control
+# Features
 
-The robot is controlled through the standard ROS 2 **`/cmd_vel`** topic.
+- Differential Drive Robot
+- ROS 2 Jazzy Compatible
+- Gazebo Simulation
+- RViz Visualization
+- Camera Sensor
+- LiDAR Sensor
+- Keyboard Teleoperation
+- Standard `/cmd_vel` Interface
+- Modular URDF/Xacro Design
 
-### Keyboard Teleoperation
+---
 
-```bash
-ros2 run teleop_twist_keyboard teleop_twist_keyboard
+# Robot Design
+
+The robot uses a differential drive chassis designed specifically for robot sumo competitions.
+
+## Drive System
+
+- Differential drive
+- Two powered wheels
+- Passive support mechanism
+
+## Attack Mechanism
+
+The robot uses a **front-mounted spear mechanism** actuated by a tubular solenoid.
+
+- Linear motion
+- Forward extension
+- Maximum extension: **30 mm**
+
+## Defense Mechanism
+
+Front wedges extend toward both sides of the robot to slide underneath opponent robots during competition.
+
+---
+
+# Mechanical Specifications
+
+| Property | Value |
+|-----------|-------|
+| Robot Length | **345.9 mm** |
+| Wheel Radius | **65 mm** |
+| Wheel Separation | **275.5 mm** |
+| Ground Clearance | **0.98 mm** |
+
+## Center of Mass
+
+Relative to the robot origin:
+
+| Axis | Value |
+|------|------|
+| X | +0.36 mm |
+| Y | +0.13 mm |
+| Z | +51.57 mm |
+
+## Mass of Major Parts
+
+| Component | Mass |
+|-----------|------|
+| Base Chassis | *To be added* |
+| Camera | *To be added* |
+| LiDAR | *To be added* |
+| Wheels | *To be added* |
+| Spear Mechanism | *To be added* |
+
+---
+
+# Sensor Configuration
+
+## Camera
+
+Position relative to robot origin:
+
+- X = +28.70 mm
+- Z = +132.20 mm
+
+Viewing direction:
+
+- Forward (First Person)
+
+Image Topic:
+
+```
+/camera/image
 ```
 
-The teleoperation node publishes velocity commands to:
-
-```
-/cmd_vel
-```
-
-which controls the robot's linear and angular velocities.
-
 ---
 
-## Visualizing the Sensors
+## LiDAR
 
-### RViz2
+Position relative to robot origin:
 
-Launch RViz2:
+- X = -81.77 mm
+- Z = +170 mm
 
-```bash
-rviz2
+LaserScan Topic
+
 ```
-
-Add the following displays:
-
-- LaserScan (`/scan`)
-- Image (`/camera/image_raw`)
-- RobotModel
-- TF
-
----
-
-## Project Structure
-
-```text
-sumo/
-├── launch/
-├── config/
-├── urdf/
-├── meshes/
-├── worlds/
-├── sumo/
+/scan
 ```
 
 ---
 
-## Requirements
+# Software Architecture
 
-- ROS 2 (Jazzy, Humble, or newer)
-- RViz2
-- teleop_twist_keyboard
-- LiDAR driver
-- Camera driver
-
----
-
-## Example Workflow
-
-```text
+```
 Keyboard
     │
     ▼
@@ -132,99 +163,225 @@ teleop_twist_keyboard
 /cmd_vel
     │
     ▼
-Robot Controller
+Diff Drive Controller
     │
- ┌──┴────────────┐
- │               │
- ▼               ▼
-Motors       Sensor Data
-                 │
-        ┌────────┴─────────┐
-        ▼                  ▼
-     Camera             LiDAR
-        │                  │
-        └────────┬─────────┘
-                 ▼
-               RViz2
+ ┌──┴─────────────┐
+ ▼                ▼
+ Wheels       Robot Motion
+                   │
+      ┌────────────┴────────────┐
+      ▼                         ▼
+   Camera                   LiDAR
+      │                         │
+      └────────────┬────────────┘
+                   ▼
+          Gazebo + RViz2
 ```
 
 ---
 
-## Future Improvements
+# Repository Structure
 
-- Autonomous opponent detection
-- Object tracking
-- Obstacle avoidance
-- SLAM integration
-- Navigation2 support
-
----
----
-
-# Robot Specifications
-
-| Specification | Value |
-|---------------|-------|
-| **Robot Length** | **345.9 mm** |
-| **Wheel Radius** | **65 mm** |
-| **Wheel Separation** | **275.5 mm** (center-to-center) |
-| **Ground Clearance** | **0.98 mm** |
-| **Center of Mass** | X = **+0.36 mm**, Y = **+0.13 mm**, Z = **+51.57 mm** (relative to robot origin) |
+```
+sumo_robot/
+│
+├── launch/
+├── config/
+├── urdf/
+├── meshes/
+├── worlds/
+├── rviz/
+├── images/
+├── scripts/
+├── package.xml
+├── setup.py
+└── README.md
+```
 
 ---
 
-# Sensor Configuration
+# Dependencies
 
-## LiDAR
-
-- **Position**
-  - X = **-81.77 mm**
-  - Z = **+170 mm**
-- Position is measured relative to the robot origin.
-
-## Camera
-
-- **Position**
-  - X = **+28.70 mm**
-  - Z = **+132.20 mm**
-- **Viewing Direction**
-  - Forward-facing (first-person view)
+- ROS 2 Jazzy
+- Gazebo Harmonic
+- RViz2
+- robot_state_publisher
+- joint_state_publisher
+- teleop_twist_keyboard
+- xacro
+- ros_gz_sim
+- ros_gz_bridge
 
 ---
 
-# Mechanical Design
+# Building the Workspace
 
-## Attack Mechanism
+```bash
+cd ~/ros2_ws
 
-The robot uses a **front-mounted spear mechanism** driven by a **tubular solenoid shaft**. The spear performs a linear forward motion and can extend an additional **30 mm (3 cm)** beyond its resting position.
-
-## Defense Mechanism
-
-The defensive structure consists of **front wedges** extending from the front toward both sides of the robot. These wedges are designed to lift or deflect opponent robots during a sumo match.
+colcon build --symlink-install
+```
 
 ---
 
-# Moving Joints
+# Source the Workspace
 
-| Joint | Motion | Travel |
-|--------|--------|--------|
-| Tubular Solenoid Shaft | Linear (Forward) | 30 mm |
+```bash
+source /opt/ros/jazzy/setup.bash
 
----
-
-# CAD Assets
-
-- ✔ STL files for all robot parts
-- ✔ Complete assembly model
-- ✔ Front direction defined
+source install/setup.bash
+```
 
 ---
 
-# Images
+# Launch the Robot
 
-## Robot Assembly
+```bash
+ros2 launch sumo <launch_file>.launch.py
+```
 
-<p align="center">
-  <img src="images/assembly.png" alt="Robot Assembly" width="700">
-</p>
+---
 
+# Robot Movement
+
+Start keyboard control
+
+```bash
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
+```
+
+Velocity commands are published to
+
+```
+/cmd_vel
+```
+
+---
+
+# Important ROS 2 Topics
+
+| Topic | Type | Description |
+|--------|------|-------------|
+| /cmd_vel | geometry_msgs/Twist | Velocity commands |
+| /odom | nav_msgs/Odometry | Robot odometry |
+| /scan | sensor_msgs/LaserScan | LiDAR |
+| /camera/image | sensor_msgs/Image | Camera |
+| /joint_states | sensor_msgs/JointState | Wheel joints |
+| /tf | tf2_msgs/TFMessage | TF tree |
+| /tf_static | tf2_msgs/TFMessage | Static transforms |
+
+---
+
+# Important TF Frames
+
+- base_link
+- base_footprint
+- lidar_link
+- camera_link
+- front_left_wheel_link
+- front_right_wheel_link
+- rear_left_wheel_link
+- rear_right_wheel_link
+
+---
+
+# Camera Stream
+
+Display the camera using:
+
+```bash
+rqt_image_view
+```
+![](images/rqt_camera.png)
+
+or
+
+![](images/rviz_gz.png)
+
+Topic:
+
+```
+/camera/image
+```
+
+---
+
+# Project Files
+
+The repository includes:
+
+- Complete ROS 2 package
+- Complete CAD assembly
+- STL files for all major robot parts
+- URDF/Xacro files
+- Gazebo plugin configuration
+- Gazebo sensor configuration
+- Gazebo–ROS 2 bridge configuration
+- Launch files
+- RViz configuration
+- Camera configuration
+- Mechanical specifications
+- Assembly image
+- package.xml
+- CMakeLists.txt
+- Parameter files
+
+---
+
+# Screenshots
+
+## Robot in Gazebo
+
+> Insert screenshot
+
+![](images/gazebo.png)
+
+---
+
+## Robot in RViz
+
+> Insert screenshot
+
+![](images/rviz.png)
+
+---
+
+## LiDAR Visualization
+
+> Insert screenshot
+
+![](images/image.png)
+
+---
+
+## TF Tree
+
+> Insert screenshot
+
+![](images/tf_tree.png)
+
+---
+
+## ROS 2 Topics
+
+### /odom
+
+> Insert screenshot
+
+![](images/odom.png)
+
+---
+
+### Sensor Topics
+
+> Insert screenshot
+
+![](images/rviz_gz.png)
+
+---
+
+# Demonstration Video
+
+```
+https://youtu.be/your_video_here
+```
