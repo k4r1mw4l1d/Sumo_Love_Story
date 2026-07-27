@@ -63,6 +63,7 @@ The robot can be extended for autonomous navigation, obstacle avoidance, or visi
 # Robot Design
 
 The robot uses a differential drive chassis designed specifically for robot sumo competitions.
+
 ![](images/assembly.png)
 ## Drive System
 
