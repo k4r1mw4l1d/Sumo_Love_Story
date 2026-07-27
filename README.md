@@ -31,8 +31,6 @@ The robot consists of the following main components:
 
 The robot publishes live camera images that can be viewed using **RViz2**, **rqt_image_view**, or any ROS 2 image subscriber.
 
-> Replace the placeholder below with a screenshot of the camera feed.
-
 <p align="center">
   <img src="images/image2.png" alt="Camera View" width="700">
 </p>
@@ -42,8 +40,6 @@ The robot publishes live camera images that can be viewed using **RViz2**, **rqt
 # LiDAR Visualization
 
 The LiDAR provides a 360° scan of the surrounding environment and can be visualized in **RViz2**.
-
-> Replace the placeholder below with a screenshot of the LiDAR scan.
 
 <p align="center">
   <img src="images/image.png" alt="LiDAR Visualization" width="700">
@@ -225,27 +221,11 @@ The defensive structure consists of **front wedges** extending from the front to
 
 ---
 
-# Sensor Mounting Locations
+# Images
 
-```
-                Front
-                  ▲
-                  │
+## Robot Assembly
 
-        Camera
-     X = +28.70 mm
-     Z = +132.20 mm
-          │
-
-      Robot Origin
-
-          │
-
-        LiDAR
-     X = -81.77 mm
-     Z = +170.00 mm
-
-                  ▼
-                 Rear
-```
+<p align="center">
+  <img src="images/assembly.png" alt="Robot Assembly" width="700">
+</p>
 
