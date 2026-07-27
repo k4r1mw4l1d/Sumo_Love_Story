@@ -1,18 +1,32 @@
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription, SetEnvironmentVariable, GroupAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
+from launch.conditions import IfCondition
+
 from launch_ros.actions import Node
-from launch_ros.substitutions import FindPackageShare
-from launch.substitutions import PathJoinSubstitution, Command
+from launch_ros.substitutions import FindPackageShare, FindPackagePrefix
+from launch.substitutions import PathJoinSubstitution, Command, LaunchConfiguration
 
 import yaml
 
+
+
 def generate_launch_description():
+    share_dir = PathJoinSubstitution([
+        FindPackagePrefix("sumo"),
+        "share",
+    ])
+
+    env = SetEnvironmentVariable(
+        name="GZ_SIM_RESOURCE_PATH",
+        value=share_dir
+    )
+
     xacro_file = PathJoinSubstitution([
         FindPackageShare("sumo"),
         "urdf",
-        "robot.xacro"
+        "sumo.xacro"
     ])
 
     robot_description = {
@@ -47,20 +61,32 @@ def generate_launch_description():
         ]
     )
 
+    config_file = PathJoinSubstitution([
+                    FindPackageShare("sumo"),
+                    "config",
+                    "bridge_parameters.yaml"
+                ])
+
     ros_gz_bridge = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
-        parameters=[
-            PathJoinSubstitution([
-                FindPackageShare("sumo"),
-                "config",
-                "bridge_parameters.yaml"
-            ])
-        ]
+        parameters=[{
+            'config_file': config_file
+        }]
     )
 
+    
+    # rviz = LaunchConfiguration('rviz')
+    # rviz2 = GroupAction(
+    #     condition=IfCondition(rviz),
+    #     actions=[Node(
+    #                 package='rviz2',
+    #                 executable='rviz2',
+    #                 output='screen',)]
+    # )
 
     return LaunchDescription([
+        env,
         gazebo,
         robot_state_publisher,
         spawn_robot,
