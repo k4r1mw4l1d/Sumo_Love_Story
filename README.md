@@ -332,15 +332,11 @@ The repository includes:
 
 ## Robot in Gazebo
 
-> Insert screenshot
-
 ![](images/gazebo.png)
 
 ---
 
 ## Robot in RViz
-
-> Insert screenshot
 
 ![](images/rviz.png)
 
@@ -348,15 +344,11 @@ The repository includes:
 
 ## LiDAR Visualization
 
-> Insert screenshot
-
 ![](images/image.png)
 
 ---
 
 ## TF Tree
-
-> Insert screenshot
 
 ![](images/tf_tree.png)
 
@@ -366,15 +358,12 @@ The repository includes:
 
 ### /odom
 
-> Insert screenshot
-
 ![](images/odom.png)
 
 ---
 
-### Sensor Topics
-
-> Insert screenshot
+### Sensor Topics and visualization
+![](images/topic_list.png)
 
 ![](images/rviz_gz.png)
 
@@ -383,5 +372,5 @@ The repository includes:
 # Demonstration Video
 
 ```
-https://youtu.be/your_video_here
+https://youtu.be/SY4gGR_diMI
 ```
