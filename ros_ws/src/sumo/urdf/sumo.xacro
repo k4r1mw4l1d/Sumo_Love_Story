@@ -1,0 +1,269 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="sumo">
+  <link name="base_footprint">
+  <origin xyz="0.0 0.0 0.0"/>
+
+  </link>
+
+  <!-- <link name="box">
+    <visual>
+      <geometry>
+        <box size="0.357 0.369 0.145"/>
+      </geometry>   
+    </visual>
+  </link> -->
+
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://sumo/meshes/blender frame trail 1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="gray">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+    </visual>
+
+    <collision>
+      <!-- <origin xyz="-0.17462 -0.18668 0" rpy="0 0 0"/> -->
+      <geometry>
+        <!-- <mesh filename="package://sumo/meshes/blender frame trail 1.stl" scale="0.001 0.001 0.001"/> -->
+        <box size="0.345 0.37 0.145"/>
+      </geometry>
+    </collision>
+
+   <inertial>
+    <!-- <origin xyz="-0.00117 0.00013 0.05125"/> -->
+    <mass value="8.20158"/>
+    <inertia ixx="0.0902089" ixy="0.0000740" ixz="0.0071159" iyy="0.0993226" iyz="0.0000221" izz="0.1666919"/>
+  </inertial>
+
+  </link>
+
+  <!-- <joint name="box_base_link_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="box"/>
+    
+  </joint>  -->
+
+
+  <joint name="base_footprint_link_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0.0 0.0 0.07"/>
+    
+  </joint>
+
+  <link name="rear_left_wheel_link">
+    <visual>
+      <!-- <origin xyz="-0.03439 -0.03879 -0.05462" rpy="0 0 0"/> -->
+      <origin rpy="0.0 3.14159 0.0"/>
+      
+      <geometry>
+        <mesh filename="package://sumo/meshes/motor B_L.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.57075 0 0"/>
+      <geometry>
+          <cylinder radius="0.065" length="0.027"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <joint name="rear_left_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="rear_left_wheel_link"/>
+    <origin xyz="-0.1166 0.142 -0.04" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+
+  <link name="rear_right_wheel_link">
+    <visual>
+    <origin rpy="3.1415 -3.1415 0.0"/>
+      <!-- <origin xyz="-0.03439 -0.03879 -0.05462" rpy="0 0 3.14159"/> -->
+      <geometry>
+        <mesh filename="package://sumo/meshes/motor B_R.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.57075 0 0"/>
+      <geometry>
+          <cylinder radius="0.065" length="0.027"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <joint name="rear_right_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="rear_right_wheel_link"/>
+    <origin xyz="-0.117 -0.1425 -0.04" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+
+  <link name="front_left_wheel_link">
+    <visual>
+      <!-- <origin xyz="-0.03439 -0.03879 -0.05462" rpy="0 0 0"/> -->
+      <!-- <origin rpy="3.1415 0.0 0.0"/> -->
+      <geometry>
+        <mesh filename="package://sumo/meshes/MOTOR-FL.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.57075 0 0"/>
+      <geometry>
+          <cylinder radius="0.065" length="0.027"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
+  </link>
+
+
+  <joint name="front_left_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="front_left_wheel_link"/>
+    <origin xyz="0.034 0.142 -0.04" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+
+  <link name="front_right_wheel_link">
+    <visual>
+    <!-- <origin rpy="3.1415 0.0 0.0"/> -->
+      <!-- <origin xyz="-0.03439 -0.03879 -0.05462" rpy="0 0 3.14159"/> -->
+      <geometry>
+        <mesh filename="package://sumo/meshes/motor F_R.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.57075 0 0"/>
+      <geometry>
+          <cylinder radius="0.065" length="0.027"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <joint name="front_right_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="front_right_wheel_link"/>
+    <origin xyz="0.0335 -0.1425 -0.04" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="lidar_mesh_link">
+
+    <visual>
+      <!-- <origin xyz="0.10 0.10 -0.09997" rpy="1.57075 0 0"/> -->
+      <geometry>
+        <mesh filename="package://sumo/meshes/lidar blender trial1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0.2 0.2 0.8 1"/>
+      </material>
+    </visual>
+
+    <collision>
+      <!-- <origin xyz="0.10 0.10 -0.09997" rpy="1.57075 0 0"/> -->
+      <geometry>
+        <box size="0.075 0.07 0.063"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <origin xyz="-0.07142 -0.06488 -0.09997"/>
+      <mass value="0.2"/>
+      <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
+    </inertial>
+
+  </link>
+
+  <link name="lidar_link">
+    
+  </link>
+
+  <joint name="lidar_link_joint" type="fixed">
+  <parent link="lidar_mesh_link"/>
+  <child link="lidar_link"/>
+  
+    <origin xyz="0.0 0.0 0.037"/>
+  </joint>
+
+  <joint name="lidar_mesh_joint" type="fixed">
+
+    <parent link="base_link"/>
+    <child link="lidar_mesh_link"/>
+
+    <origin xyz="-0.096 0 0.0737" rpy="0 0 0"/>
+
+  </joint>
+
+  <link name="camera_link">
+
+    <visual>
+      <!-- <origin xyz="-0.03889 0.03714 -0.03598" rpy="1.5708 0 -1.5708"/> -->
+      <geometry>
+        <mesh filename="package://sumo/meshes/blender trial cam .stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="white">
+        <color rgba="0.95 0.95 0.95 1"/>
+      </material>
+    </visual>
+
+    <collision>
+      <!-- <origin xyz="-0.03889 0.03714 -0.03598" rpy="1.5708 0 -1.5708"/> -->
+      <geometry>
+        <!-- <mesh filename="package://sumo/meshes/blender trial cam .stl" scale="0.001 0.001 0.001"/> -->
+        <box size="0.02 0.077 0.025"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <origin xyz="-0.03889 -0.02314 -0.02598"/>
+      <mass value="0.2"/>
+      <inertia ixx="0.0002" ixy="0" ixz="0" iyy="0.0002" iyz="0" izz="0.0002"/>
+    </inertial>
+
+  </link>
+
+  <joint name="camera_joint" type="fixed">
+
+    <parent link="base_link"/>
+    <child link="camera_link"/>
+
+    <origin xyz="0.031 0 0.047" rpy="0 0 0"/>
+  </joint>
+<xacro:include filename="gazebo.xacro"/>
+</robot>

@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="lidar_robot">
+  <material name="red">
+    <color rgba="1.0 0.0 0.0 1.0"/>
+  </material>
+
+    <link name="base_link">
+        <inertial>
+        <mass value="0.1"/>
+        <inertia 
+            ixx="0.001"
+            ixy="0"
+            ixz="0"
+            iyy="0.001"
+            iyz="0"
+            izz="0.001"/>
+    </inertial>
+
+        <visual>
+            <geometry>
+                <box size="0.75 0.5 0.5"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="1.5 1.0 1.0"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <link name="lidar_link">
+        <inertial>
+            <origin xyz="0 0 0"/>
+            <mass value="10"/>
+            <inertia 
+                ixx="0.1"
+                ixy="0"
+                ixz="0"
+                iyy="0.1"
+                iyz="0"
+                izz="0.1"/>
+        </inertial>
+        <visual>            
+            <geometry>
+                <mesh filename="package://sumo/meshes/lidar.STL" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="dark-gray">
+                <color rgba="0.3 0.3 0.3 1.0"/>
+            </material>
+            <origin xyz="-0.05 0.1 0" rpy="1.57075 0.0 0.0"/>
+        </visual>
+    </link>
+
+    <joint name="lidar_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="lidar_link"/>
+        
+        <origin xyz="0.335 0.0 0.25"/>
+    </joint>
+
+    <xacro:include filename="gazebo.xacro"/>
+</robot>
