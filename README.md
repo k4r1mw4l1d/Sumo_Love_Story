@@ -99,14 +99,13 @@ Add the following displays:
 ## Project Structure
 
 ```text
-sumo_/
+sumo/
 ├── launch/
 ├── config/
 ├── urdf/
 ├── meshes/
 ├── worlds/
-├── src/
-└── README.md
+├── sumo/
 ```
 
 ---
